@@ -16,7 +16,7 @@ export const Canditado = ({ nome, porc, votos, partido, num, sqcand }) => {
         <CircularProgress
           size={20}
           value={porc.split(',')[0]}
-          color='green.400'
+          color='blue.500'
         >
           <CircularProgressLabel>
             <Avatar
@@ -32,7 +32,7 @@ export const Canditado = ({ nome, porc, votos, partido, num, sqcand }) => {
         </Flex>
       </Flex>
       <Flex flexDir="column">
-        <Text fontWeight="600">{votos} votos</Text>
+        <Text fontWeight="600">{Number(votos).toLocaleString('pt-BR')} votos</Text>
         <Text fontWeight="600">{porc}%</Text>
       </Flex>
     </Flex>

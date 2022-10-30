@@ -1,5 +1,5 @@
 import { RepeatIcon } from "@chakra-ui/icons"
-import { Container, IconButton, keyframes, Text, usePrefersReducedMotion } from "@chakra-ui/react"
+import { Avatar, CircularProgress, CircularProgressLabel, Container, Flex, IconButton, keyframes, Text, usePrefersReducedMotion } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { Canditado } from "../../components/candidato"
@@ -29,7 +29,6 @@ export const Home = () => {
         setIsLoading(false)
         setRecarregar(false)
         setDeuErro(false)
-        console.log(data)
       } catch (error) {
         console.log(error)
         setDeuErro(true)
@@ -41,10 +40,18 @@ export const Home = () => {
     <>
       {deuErro && !isLoading
         ? <Text>Ocorreu um erro</Text>
-        : <Container h="60vh">
-          <Text my={7} align="center" fontWeight="600">
-            Última atualização {dados.hg}
-          </Text>
+        : <Container h="65vh">
+          <Flex my={5} alignItems="center" flexDir="column" gap={2}>
+            <Text fontWeight="600">
+              Última atualização {dados.hg}
+            </Text>
+            <Text fontWeight="600">
+              Votos Totais: {Number(dados?.tv).toLocaleString('pt-BR')}
+            </Text>
+            <Text fontWeight="600">
+              Urnas apuradas: {dados?.pst}%
+            </Text>
+          </Flex>
           {dados?.cand?.map(candidato => (
             <Canditado
               key={candidato.seq}
@@ -56,6 +63,37 @@ export const Home = () => {
               sqcand={candidato.sqcand}
             />
           ))}
+          <Flex
+            mb={5}
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Flex alignItems="center" gap={2}>
+              <CircularProgress
+                size={20}
+                value={
+                  Number(dados?.pvan?.split(',')[0]) +
+                  Number(dados?.ptvn?.split(',')[0]) +
+                  Number(dados?.pvb?.split(',')[0])
+                }
+                color='blue.500'
+              />
+            </Flex>
+            <Flex flexDir="column">
+              <Text as="small" fontWeight="600">
+                Anulados: {Number(dados.van).toLocaleString('pt-BR')} -{' '}
+                {dados.pvan}%
+              </Text>
+              <Text as="small" fontWeight="600">
+                Nulos: {Number(dados.tvn).toLocaleString('pt-BR')} -{' '}
+                {dados.ptvn}%
+              </Text>
+              <Text as="small" fontWeight="600">
+                Brancos: {Number(dados.vb).toLocaleString('pt-BR')} -{' '}
+                {dados.pvb}%
+              </Text>
+            </Flex>
+          </Flex>
           <IconButton
             colorScheme="facebook"
             size="lg"
@@ -63,7 +101,7 @@ export const Home = () => {
             bottom={2}
             right={5}
             animation={isLoading && animation}
-            onClick={() => setRecarregar(true)}
+            onClick={() => !isLoading && setRecarregar(true)}
             borderRadius={999}
             icon={<RepeatIcon />}
           />
