@@ -47,7 +47,7 @@ export const Home = () => {
               Votos Totais: {Number(dados?.tv).toLocaleString('pt-BR')}
             </Text>
             <Text fontWeight="600">
-              Urnas apuradas: {dados?.pst}%
+              Urnas apuradas {dados.pst}%
             </Text>
           </Flex>
           {dados?.cand?.map(candidato => (
@@ -79,8 +79,8 @@ export const Home = () => {
             </Flex>
             <Flex flexDir="column">
               <Text as="small" fontWeight="600">
-                Anulados: {Number(dados.van).toLocaleString('pt-BR')} -{' '}
-                {dados.pvan}%
+                Abstenções: {Number(dados.a).toLocaleString('pt-BR')} -{' '}
+                {dados.pa}%
               </Text>
               <Text as="small" fontWeight="600">
                 Nulos: {Number(dados.tvn).toLocaleString('pt-BR')} -{' '}
