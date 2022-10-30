@@ -1,5 +1,5 @@
 import { RepeatIcon } from "@chakra-ui/icons"
-import { Avatar, CircularProgress, CircularProgressLabel, Container, Flex, IconButton, keyframes, Text, usePrefersReducedMotion } from "@chakra-ui/react"
+import { CircularProgress, Container, Flex, IconButton, keyframes, Text, usePrefersReducedMotion } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { Canditado } from "../../components/candidato"
@@ -13,7 +13,6 @@ export const Home = () => {
   const [dados, setDados] = useState({})
   const [isLoading, setIsLoading] = useState(false)
   const [deuErro, setDeuErro] = useState(false)
-  const [recarregar, setRecarregar] = useState(false)
   const prefersReducedMotion = usePrefersReducedMotion()
 
   const animation = prefersReducedMotion
@@ -27,14 +26,13 @@ export const Home = () => {
         const { data } = await axios.get('https://resultados.tse.jus.br/oficial/ele2022/545/dados-simplificados/br/br-c0001-e000545-r.json')
         setDados(data)
         setIsLoading(false)
-        setRecarregar(false)
         setDeuErro(false)
       } catch (error) {
         console.log(error)
         setDeuErro(true)
       }
     })()
-  }, [recarregar])
+  }, [])
 
   return (
     <>
@@ -101,7 +99,7 @@ export const Home = () => {
             bottom={2}
             right={5}
             animation={isLoading && animation}
-            onClick={() => !isLoading && setRecarregar(true)}
+            onClick={() => window.location.reload()}
             borderRadius={999}
             icon={<RepeatIcon />}
           />
